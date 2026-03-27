@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+  <title>NIYANTRA · Features | Advanced Learning OS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: radial-gradient(circle at 10% 20%, #0a0704, #1b130c);
+      font-family: 'Inter', sans-serif;
+      color: #ece6df;
+      line-height: 1.4;
+      scroll-behavior: smooth;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 1.2rem 1.5rem 3rem;
+    }
+
+    /* navbar same premium style */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0 1rem;
+      position: relative;
+      z-index: 50;
+    }
+
+    .logo-area h1 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #f5e7d9, #e0b37c);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .logo-area span {
+      font-size: 0.7rem;
+      letter-spacing: 0.5px;
+      color: #bc9a6c;
+      display: block;
+      font-weight: 400;
+    }
+
+    .hamburger {
+      background: rgba(30, 20, 15, 0.7);
+      backdrop-filter: blur(12px);
+      border-radius: 40px;
+      padding: 0.6rem 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+      border: 0.5px solid rgba(220, 180, 120, 0.3);
+    }
+
+    .hamburger i {
+      font-size: 1.5rem;
+      color: #e6c8a3;
+    }
+
+    .nav-menu {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 80%;
+      max-width: 280px;
+      height: 100vh;
+      background: rgba(10, 7, 5, 0.96);
+      backdrop-filter: blur(16px);
+      z-index: 1000;
+      padding: 2rem 1.8rem;
+      transition: left 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      border-right: 1px solid rgba(200, 160, 100, 0.25);
+      box-shadow: 8px 0 40px rgba(0,0,0,0.6);
+    }
+
+    .nav-menu.active {
+      left: 0;
+    }
+
+    .nav-menu ul {
+      list-style: none;
+      margin-top: 2rem;
+    }
+
+    .nav-menu li {
+      margin: 1.5rem 0;
+    }
+
+    .nav-menu a {
+      color: #f2e2cf;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.3rem;
+      letter-spacing: -0.2px;
+      transition: 0.2s;
+      display: inline-block;
+    }
+
+    .nav-menu a:hover, .nav-menu a:active {
+      color: #e0a46b;
+      transform: translateX(6px);
+    }
+
+    .close-menu {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: #cbae86;
+      cursor: pointer;
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+    }
+
+    .menu-overlay-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(3px);
+      z-index: 999;
+      display: none;
+    }
+
+    /* page header */
+    .page-header {
+      margin: 1rem 0 1.5rem;
+    }
+    .page-header h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      background: linear-gradient(120deg, #ffcba4, #f5ac78);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.02em;
+    }
+    .page-header p {
+      color: #bc9f7c;
+      margin-top: 0.3rem;
+      font-size: 0.95rem;
+    }
+
+    /* premium cards grid */
+    .features-premium {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin: 1.8rem 0 2rem;
+    }
+
+    .premium-card {
+      background: rgba(20, 14, 9, 0.7);
+      backdrop-filter: blur(8px);
+      border-radius: 32px;
+      padding: 1.4rem 1.3rem;
+      border: 0.8px solid rgba(205, 150, 80, 0.35);
+      transition: all 0.25s ease;
+      box-shadow: 0 12px 24px -12px rgba(0,0,0,0.4);
+    }
+
+    .premium-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(220, 140, 60, 0.6);
+      background: rgba(28, 20, 13, 0.8);
+    }
+
+    .card-icon-large {
+      font-size: 2.5rem;
+      margin-bottom: 0.8rem;
+      display: inline-block;
+    }
+
+    .premium-card h3 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin: 0.4rem 0 0.6rem;
+      color: #f5cf9b;
+      letter-spacing: -0.2px;
+    }
+
+    .premium-card p {
+      font-size: 0.92rem;
+      color: #d8caba;
+      line-height: 1.45;
+      margin-bottom: 0.8rem;
+    }
+
+    .feature-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,0,0,0.5);
+      border-radius: 60px;
+      padding: 0.25rem 0.9rem;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: #e6bc86;
+      margin-top: 0.5rem;
+    }
+
+    .instant-tag {
+      background: #2e3820;
+      color: #b7e4a0;
+      border-radius: 30px;
+      padding: 0.2rem 0.8rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    hr {
+      border-color: rgba(160, 120, 70, 0.25);
+      margin: 1rem 0;
+    }
+
+    .btn-back {
+      background: rgba(30, 20, 12, 0.7);
+      border: 1px solid #b87c44;
+      border-radius: 50px;
+      padding: 0.7rem 1.4rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #e6bc8a;
+      font-weight: 500;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: 0.2s;
+      margin-top: 0.5rem;
+    }
+    .btn-back:hover {
+      background: #b87c44;
+      color: #0d0a07;
+    }
+
+    footer {
+      margin-top: 2.5rem;
+      text-align: center;
+      font-size: 0.7rem;
+      color: #8f7658;
+      border-top: 0.5px solid rgba(150,110,70,0.4);
+      padding-top: 1.8rem;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0.8rem 1.2rem 2rem;
+      }
+      .page-header h1 {
+        font-size: 1.9rem;
+      }
+      .premium-card h3 {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- navbar identical to index -->
+  <div class="navbar">
+    <div class="logo-area">
+      <h1>NIYANTRA</h1>
+      <span>discipline · architecture · flow</span>
+    </div>
+    <div class="hamburger" id="hamburgerBtn">
+      <i class="fas fa-bars"></i>
+    </div>
+  </div>
+
+  <!-- page header -->
+  <div class="page-header">
+    <h1>Core Intelligence</h1>
+    <p>Six engines powering exam-ready precision. Every feature is built for speed, depth, and clarity.</p>
+  </div>
+
+  <!-- FEATURE CARDS: premium explanations exactly matching requirements -->
+  <div class="features-premium">
+    
+    <!-- 1. Voice question input -->
+    <div class="premium-card">
+      <div class="card-icon-large">
+        <i class="fas fa-microphone-alt" style="color: #f39c12;"></i>
+      </div>
+      <h3>Voice question input</h3>
+      <p>Tap, speak naturally — our advanced speech recognition converts your voice into structured academic queries. Ask doubts, define concepts, or dictate long problems hands-free. Ideal for rapid-fire revision and verbal reasoning practice.</p>
+      <div class="feature-badge"><i class="fas fa-waveform"></i> real-time transcription · intent detection</div>
+      <div class="instant-tag" style="margin-top: 8px;"><i class="fas fa-bolt"></i> instant response</div>
+    </div>
+
+    <!-- 2. Image OCR solving -->
+    <div class="premium-card">
+      <div class="card-icon-large">
+        <i class="fas fa-image" style="color: #e67e22;"></i>
+      </div>
+      <h3>Image OCR solving</h3>
+      <p>Upload handwritten notes, printed problems, or textbook screenshots. Our OCR engine extracts text, math equations, and diagrams, then solves step-by-step with full reasoning. Turn any physical material into digital, actionable insight.</p>
+      <div class="feature-badge"><i class="fas fa-camera"></i> math OCR · diagram parsing · stepwise solution</div>
+    </div>
+
+    <!-- 3. YouTube solution analysis -->
+    <div class="premium-card">
+      <div class="card-icon-large">
+        <i class="fab fa-youtube" style="color: #ff5e00;"></i>
+      </div>
+      <h3>YouTube solution analysis</h3>
+      <p>Paste any YouTube link — lecture, crash course, problem walkthrough. AI extracts key concepts, timestamps, generates concise notes, quiz questions, and doubt clarifications. No need to re-watch hours. Smart summarization & concept mapping.</p>
+      <div class="feature-badge"><i class="fas fa-link"></i> summarization · key takeaways · auto-quiz</div>
+    </div>
+
+    <!-- 4. Multilingual support -->
+    <div class="premium-card">
+      <div class="card-icon-large">
+        <i class="fas fa-language" style="color: #6ab04c;"></i>
+      </div>
+      <h3>Multilingual support</h3>
+      <p>Learn in your mother tongue or preferred language: Hindi, Tamil, Telugu, Kannada, Bengali, Marathi, English & more. Input queries, get answers, and exam-ready explanations in regional languages without losing technical accuracy.</p>
+      <div class="feature-badge"><i class="fas fa-globe"></i> 12+ languages · transliteration · context-aware</div>
+    </div>
+
+    <!-- 5. Exam-style AI answers -->
+    <div class="premium-card">
+      <div class="card-icon-large">
+        <i class="fas fa-chalkboard-user" style="color: #e0a46b;"></i>
+      </div>
+      <h3>Exam-style AI answers</h3>
+      <p>Answers formatted exactly like JEE, NEET, UPSC, KCET expectations: structured, pointwise, with key derivations, diagrams in text, and examiner keywords. Get model answers that match scoring patterns and reduce presentation anxiety.</p>
+      <div class="feature-badge"><i class="fas fa-star-of-life"></i> board pattern · keyword emphasis · time-stamped</div>
+      <div class="instant-tag" style="margin-top: 8px;"><i class="fas fa-gem"></i> exam-ready format</div>
+    </div>
+
+    <!-- 6. Instant response -->
+    <div class="premium-card">
+      <div class="card-icon-large">
+        <i class="fas fa-bolt" style="color: #f4d03f;"></i>
+      </div>
+      <h3>Instant response</h3>
+      <p>Sub-500ms latency architecture. Ask, upload, or speak — get structured feedback, solutions, and next-step recommendations in real-time. Zero lag ensures your flow state remains unbroken during deep study sessions.</p>
+      <div class="feature-badge"><i class="fas fa-rocket"></i> real-time inference · low latency · smart caching</div>
+    </div>
+  </div>
+
+  <!-- additional premium note: all features combine -->
+  <div style="background: rgba(65, 45, 25, 0.4); border-radius: 28px; padding: 1rem; margin: 1rem 0;">
+    <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+      <i class="fas fa-microchip" style="font-size: 1.8rem; color: #dc9e5e;"></i>
+      <span style="font-size: 0.85rem;"><strong>AI synergy:</strong> Voice + OCR + YouTube + Multilingual → All unified in NIYANTRA’s discipline engine.</span>
+    </div>
+  </div>
+
+  <!-- back to home link (optional, but premium) -->
+  <a href="index.html" class="btn-back"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+
+  <footer>
+    NIYANTRA — Features designed for serious aspirants. JEE · NEET · UPSC · KCET · NDA
+  </footer>
+</div>
+
+<!-- mobile menu overlay (identical behavior as index) -->
+<div class="menu-overlay-bg" id="menuOverlay"></div>
+<div class="nav-menu" id="mobileMenu">
+  <button class="close-menu" id="closeMenuBtn"><i class="fas fa-times"></i></button>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="features.html">Features</a></li>
+    <li><a href="#">Modes</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="chat.html" id="menuStartStudy">Start Studying</a></li>
+  </ul>
+</div>
+
+<script>
+  // hamburger menu logic (same as index)
+  const hamburger = document.getElementById("hamburgerBtn");
+  const mobileMenu = document.getElementById("mobileMenu");
+  const menuOverlay = document.getElementById("menuOverlay");
+  const closeMenuBtn = document.getElementById("closeMenuBtn");
+  const menuLinks = document.querySelectorAll("#mobileMenu a");
+
+  function openMenu() {
+    mobileMenu.classList.add("active");
+    menuOverlay.style.display = "block";
+    document.body.style.overflow = "hidden";
+  }
+  function closeMenu() {
+    mobileMenu.classList.remove("active");
+    menuOverlay.style.display = "none";
+    document.body.style.overflow = "";
+  }
+  if (hamburger) hamburger.addEventListener("click", openMenu);
+  if (closeMenuBtn) closeMenuBtn.addEventListener("click", closeMenu);
+  if (menuOverlay) menuOverlay.addEventListener("click", closeMenu);
+
+  menuLinks.forEach(link => {
+    link.addEventListener("click", (e) => {
+      const href = link.getAttribute("href");
+      if (href === "chat.html") {
+        e.preventDefault();
+        closeMenu();
+        setTimeout(() => { window.location.href = "chat.html"; }, 100);
+      } 
+      else if (href && href !== "#" && !href.startsWith("javascript")) {
+        // allow navigation for index/features but close menu first
+        if (href !== "features.html" && href !== "index.html") {
+          // just in case, but we allow all internal
+        }
+        e.preventDefault();
+        closeMenu();
+        setTimeout(() => { window.location.href = href; }, 80);
+      } else {
+        closeMenu();
+      }
+    });
+  });
+
+  // optional hover micro interactions for cards
+  const cards = document.querySelectorAll(".premium-card");
+  cards.forEach(card => {
+    card.addEventListener("touchstart", () => {
+      card.style.transform = "scale(0.98)";
+      setTimeout(() => { card.style.transform = ""; }, 120);
+    });
+  });
+</script>
+</body>
+</html>
