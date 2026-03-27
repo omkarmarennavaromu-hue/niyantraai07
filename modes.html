@@ -1,1 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+  <title>NIYANTRA · Learning Modes | Exam Mastery OS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
+    body {
+      background: radial-gradient(circle at 10% 20%, #0a0704, #1b130c);
+      font-family: 'Inter', sans-serif;
+      color: #ece6df;
+      line-height: 1.4;
+      scroll-behavior: smooth;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 1.2rem 1.5rem 3rem;
+    }
+
+    /* premium navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0 1rem;
+      position: relative;
+      z-index: 50;
+    }
+
+    .logo-area h1 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #f5e7d9, #e0b37c);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .logo-area span {
+      font-size: 0.7rem;
+      letter-spacing: 0.5px;
+      color: #bc9a6c;
+      display: block;
+      font-weight: 400;
+    }
+
+    .hamburger {
+      background: rgba(30, 20, 15, 0.7);
+      backdrop-filter: blur(12px);
+      border-radius: 40px;
+      padding: 0.6rem 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+      border: 0.5px solid rgba(220, 180, 120, 0.3);
+    }
+
+    .hamburger i {
+      font-size: 1.5rem;
+      color: #e6c8a3;
+    }
+
+    .nav-menu {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 80%;
+      max-width: 280px;
+      height: 100vh;
+      background: rgba(10, 7, 5, 0.96);
+      backdrop-filter: blur(16px);
+      z-index: 1000;
+      padding: 2rem 1.8rem;
+      transition: left 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      border-right: 1px solid rgba(200, 160, 100, 0.25);
+      box-shadow: 8px 0 40px rgba(0,0,0,0.6);
+    }
+
+    .nav-menu.active {
+      left: 0;
+    }
+
+    .nav-menu ul {
+      list-style: none;
+      margin-top: 2rem;
+    }
+
+    .nav-menu li {
+      margin: 1.5rem 0;
+    }
+
+    .nav-menu a {
+      color: #f2e2cf;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.3rem;
+      letter-spacing: -0.2px;
+      transition: 0.2s;
+      display: inline-block;
+    }
+
+    .nav-menu a:hover, .nav-menu a:active {
+      color: #e0a46b;
+      transform: translateX(6px);
+    }
+
+    .close-menu {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: #cbae86;
+      cursor: pointer;
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+    }
+
+    .menu-overlay-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(3px);
+      z-index: 999;
+      display: none;
+    }
+
+    /* page header */
+    .modes-header {
+      margin: 1rem 0 1.8rem;
+    }
+    .modes-header h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      background: linear-gradient(120deg, #ffcba4, #f5ac78);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.02em;
+    }
+    .modes-header p {
+      color: #bc9f7c;
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    /* large premium cards grid */
+    .modes-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+      margin: 1.5rem 0 2.2rem;
+    }
+
+    .mode-card {
+      background: linear-gradient(135deg, rgba(25, 18, 12, 0.85), rgba(18, 12, 8, 0.9));
+      backdrop-filter: blur(10px);
+      border-radius: 36px;
+      padding: 1.8rem 1.5rem;
+      border: 1px solid rgba(205, 150, 80, 0.4);
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      box-shadow: 0 20px 30px -12px rgba(0,0,0,0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mode-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #e67e22, #f39c12, #d97a2b);
+    }
+
+    .mode-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(230, 126, 34, 0.7);
+      box-shadow: 0 25px 35px -12px rgba(0,0,0,0.7);
+    }
+
+    .mode-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: inline-block;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    }
+
+    .mode-card h2 {
+      font-size: 1.9rem;
+      font-weight: 800;
+      margin: 0.5rem 0 0.8rem;
+      color: #f5cf9b;
+      letter-spacing: -0.5px;
+    }
+
+    .mode-description {
+      font-size: 1rem;
+      color: #e2d3c0;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+
+    .exam-benefits {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 24px;
+      padding: 0.9rem 1rem;
+      margin: 1rem 0 0.6rem;
+      border-left: 3px solid #e67e22;
+    }
+
+    .exam-benefits p {
+      font-size: 0.88rem;
+      color: #cfbc9e;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin: 0.4rem 0;
+    }
+
+    .exam-benefits i {
+      color: #e6bc86;
+      margin-top: 0.2rem;
+      font-size: 0.85rem;
+    }
+
+    .badge-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 1rem;
+    }
+
+    .exam-badge {
+      background: rgba(210, 120, 40, 0.2);
+      border: 0.5px solid #b87c44;
+      border-radius: 40px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #f0cf9c;
+      letter-spacing: 0.3px;
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(230, 126, 34, 0.15);
+      border: 1px solid #e67e22;
+      border-radius: 60px;
+      padding: 0.5rem 1.2rem;
+      margin-top: 1.2rem;
+      color: #f0bc7a;
+      font-weight: 500;
+      font-size: 0.85rem;
+      transition: 0.2s;
+      cursor: pointer;
+    }
+
+    .btn-ghost i {
+      font-size: 0.8rem;
+    }
+
+    .btn-ghost:active {
+      transform: scale(0.96);
+      background: #e67e22;
+      color: #0f0c08;
+    }
+
+    .insight-note {
+      background: rgba(30, 25, 18, 0.7);
+      border-radius: 28px;
+      padding: 1rem 1.2rem;
+      margin: 0.8rem 0 1rem;
+      text-align: center;
+      font-size: 0.85rem;
+      border: 0.5px solid #9b7a54;
+    }
+
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.7rem;
+      color: #8f7658;
+      border-top: 0.5px solid rgba(150,110,70,0.4);
+      padding-top: 1.8rem;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0.8rem 1.2rem 2rem;
+      }
+      .modes-header h1 {
+        font-size: 1.9rem;
+      }
+      .mode-card h2 {
+        font-size: 1.6rem;
+      }
+      .mode-card {
+        padding: 1.4rem 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- navbar identical to NIYANTRA ecosystem -->
+  <div class="navbar">
+    <div class="logo-area">
+      <h1>NIYANTRA</h1>
+      <span>discipline · architecture · flow</span>
+    </div>
+    <div class="hamburger" id="hamburgerBtn">
+      <i class="fas fa-bars"></i>
+    </div>
+  </div>
+
+  <!-- modes page header -->
+  <div class="modes-header">
+    <h1>Training Modes</h1>
+    <p>Four powerful engines designed for JEE, KCET, NDA & NEET — each mode adapts to your learning rhythm. Switch contexts without losing momentum.</p>
+  </div>
+
+  <!-- 4 large premium cards explaining each mode -->
+  <div class="modes-grid">
+    
+    <!-- MODE 1: Test Mode (MCQs) -->
+    <div class="mode-card">
+      <div class="mode-icon">
+        <i class="fas fa-tasks" style="color: #f39c12;"></i>
+      </div>
+      <h2>Test Mode</h2>
+      <div class="mode-description">
+        Adaptive MCQs with exam interface simulation. Timed sections, negative marking awareness, and post-test analytics. Realistic JEE Main, KCET, NDA pattern.
+      </div>
+      <div class="exam-benefits">
+        <p><i class="fas fa-chart-line"></i> <strong>JEE / KCET:</strong> Concept-based MCQs + numericals with stepwise solutions, difficulty progression.</p>
+        <p><i class="fas fa-crosshairs"></i> <strong>NDA:</strong> GK, Mathematics & English in one simulated paper — accuracy & speed focus.</p>
+        <p><i class="fas fa-chart-simple"></i> Detailed percentile prediction, weak chapter mapping, and time-per-question breakdown.</p>
+      </div>
+      <div class="badge-group">
+        <span class="exam-badge"><i class="fas fa-microchip"></i> JEE Advanced pattern</span>
+        <span class="exam-badge"><i class="fas fa-gavel"></i> KCET mock interface</span>
+        <span class="exam-badge"><i class="fas fa-shield-alt"></i> NDA speed drills</span>
+      </div>
+      <div class="btn-ghost" onclick="alert('⚡ Test Mode: Select subject & start full-length mock or topic-wise quiz.')">
+        <i class="fas fa-play"></i> Activate Test Mode
+      </div>
+    </div>
+
+    <!-- MODE 2: Flashcards -->
+    <div class="mode-card">
+      <div class="mode-icon">
+        <i class="fas fa-layer-group" style="color: #e67e22;"></i>
+      </div>
+      <h2>Flashcards</h2>
+      <div class="mode-description">
+        Smart spaced repetition flashcards for formulae, reactions, historical dates, and concepts. Active recall + retention algorithm.
+      </div>
+      <div class="exam-benefits">
+        <p><i class="fas fa-square-root-alt"></i> <strong>JEE:</strong> Physics formulae, organic reagents, calculus shortcuts — quick mental retrieval.</p>
+        <p><i class="fas fa-dna"></i> <strong>KCET/NEET:</strong> Bio terms, chemical equations, periodic trends at your fingertips.</p>
+        <p><i class="fas fa-landmark"></i> <strong>NDA:</strong> History timelines, defense awareness, English idioms, and current affairs.</p>
+      </div>
+      <div class="badge-group">
+        <span class="exam-badge"><i class="fas fa-brain"></i> Spaced repetition</span>
+        <span class="exam-badge"><i class="fas fa-mobile-alt"></i> Swipe & review</span>
+        <span class="exam-badge"><i class="fas fa-chart-simple"></i> Mastery tracker</span>
+      </div>
+      <div class="btn-ghost" onclick="alert('📇 Flashcards ready: Select deck → JEE Formula, KCET Biology, NDA GK.')">
+        <i class="fas fa-layer-group"></i> Browse Decks
+      </div>
+    </div>
+
+    <!-- MODE 3: Revision Notes -->
+    <div class="mode-card">
+      <div class="mode-icon">
+        <i class="fas fa-pen-fancy" style="color: #d97a2b;"></i>
+      </div>
+      <h2>Revision Notes</h2>
+      <div class="mode-description">
+        AI-generated crisp notes from lectures, textbooks, or your weak topics. Extract key highlights, shortcut derivations, and exam-focused summaries.
+      </div>
+      <div class="exam-benefits">
+        <p><i class="fas fa-calculator"></i> <strong>JEE / KCET:</strong> Chapter-wise one-pagers: important theorems, exceptional cases, and common traps.</p>
+        <p><i class="fas fa-leaf"></i> <strong>NEET:</strong> NCERT line-by-line condensation, diagrams, and must-know facts.</p>
+        <p><i class="fas fa-map-marked-alt"></i> <strong>NDA:</strong> Concise GK modules, current affairs highlights, and math shortcuts.</p>
+      </div>
+      <div class="badge-group">
+        <span class="exam-badge"><i class="fas fa-robot"></i> Smart summarization</span>
+        <span class="exam-badge"><i class="fas fa-highlighter"></i> Exam cues</span>
+        <span class="exam-badge"><i class="fas fa-clock"></i> 15-min revision</span>
+      </div>
+      <div class="btn-ghost" onclick="alert('📘 Revision Notes: Generate notes from your weak chapters or upload material.')">
+        <i class="fas fa-file-alt"></i> Generate Notes
+      </div>
+    </div>
+
+    <!-- MODE 4: Learn Mode -->
+    <div class="mode-card">
+      <div class="mode-icon">
+        <i class="fas fa-graduation-cap" style="color: #52b788;"></i>
+      </div>
+      <h2>Learn Mode</h2>
+      <div class="mode-description">
+        Adaptive concept teaching with AI tutor. Step-by-step explanations, visual analogies, and interactive doubt resolution. Build foundations before testing.
+      </div>
+      <div class="exam-benefits">
+        <p><i class="fas fa-chalkboard"></i> <strong>JEE/NEET:</strong> Concept mapping, integrated problem-solving, misconception correction.</p>
+        <p><i class="fas fa-chart-bar"></i> <strong>KCET:</strong> State syllabus alignment with NCERT — topic prioritization based on weightage.</p>
+        <p><i class="fas fa-users"></i> <strong>NDA:</strong> Conceptual clarity in maths, reasoning, and general studies through conversational AI.</p>
+      </div>
+      <div class="badge-group">
+        <span class="exam-badge"><i class="fas fa-microphone-alt"></i> Voice query</span>
+        <span class="exam-badge"><i class="fas fa-image"></i> Visual learning</span>
+        <span class="exam-badge"><i class="fas fa-chart-line"></i> Personalized path</span>
+      </div>
+      <div class="btn-ghost" onclick="alert('🧠 Learn Mode active: Pick a subject (Physics, Math, Chemistry, GS) and start AI-guided session.')">
+        <i class="fas fa-brain"></i> Start Learning
+      </div>
+    </div>
+  </div>
+
+  <!-- additional context: how these modes unify for exam prep -->
+  <div class="insight-note">
+    <i class="fas fa-sync-alt" style="color: #e6bc86; margin-right: 6px;"></i> 
+    <strong>Discipline Loop:</strong> Learn → Flashcards → Test Mode → Revision Notes → Repeat. <br>
+    Built specifically for <strong>JEE, KCET, NDA, NEET</strong> structured preparation.
+  </div>
+
+  <footer>
+    NIYANTRA — Modes that adapt to your exam, not the other way.
+  </footer>
+</div>
+
+<!-- mobile menu (identical to index/features) -->
+<div class="menu-overlay-bg" id="menuOverlay"></div>
+<div class="nav-menu" id="mobileMenu">
+  <button class="close-menu" id="closeMenuBtn"><i class="fas fa-times"></i></button>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="features.html">Features</a></li>
+    <li><a href="modes.html">Modes</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="chat.html" id="menuStartStudy">Start Studying</a></li>
+  </ul>
+</div>
+
+<script>
+  // hamburger menu system (consistent with NIYANTRA design)
+  const hamburger = document.getElementById("hamburgerBtn");
+  const mobileMenu = document.getElementById("mobileMenu");
+  const menuOverlay = document.getElementById("menuOverlay");
+  const closeMenuBtn = document.getElementById("closeMenuBtn");
+  const menuLinks = document.querySelectorAll("#mobileMenu a");
+
+  function openMenu() {
+    mobileMenu.classList.add("active");
+    menuOverlay.style.display = "block";
+    document.body.style.overflow = "hidden";
+  }
+  function closeMenu() {
+    mobileMenu.classList.remove("active");
+    menuOverlay.style.display = "none";
+    document.body.style.overflow = "";
+  }
+  if (hamburger) hamburger.addEventListener("click", openMenu);
+  if (closeMenuBtn) closeMenuBtn.addEventListener("click", closeMenu);
+  if (menuOverlay) menuOverlay.addEventListener("click", closeMenu);
+
+  menuLinks.forEach(link => {
+    link.addEventListener("click", (e) => {
+      const href = link.getAttribute("href");
+      if (href === "chat.html") {
+        e.preventDefault();
+        closeMenu();
+        setTimeout(() => { window.location.href = "chat.html"; }, 100);
+      } 
+      else if (href && href !== "#" && !href.startsWith("javascript")) {
+        e.preventDefault();
+        closeMenu();
+        setTimeout(() => { window.location.href = href; }, 80);
+      } else {
+        closeMenu();
+      }
+    });
+  });
+
+  // interactive card micro-feedback
+  const modeCards = document.querySelectorAll(".mode-card");
+  modeCards.forEach(card => {
+    card.addEventListener("touchstart", () => {
+      card.style.transform = "scale(0.98)";
+      setTimeout(() => { card.style.transform = ""; }, 120);
+    });
+  });
+</script>
+</body>
+</html>
