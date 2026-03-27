@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+  <title>NIYANTRA · AI Study Assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: radial-gradient(circle at 10% 20%, #0a0704, #1b130c);
+      font-family: 'Inter', sans-serif;
+      color: #ece6df;
+      line-height: 1.4;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .app-container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    /* Navbar Premium */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1.5rem;
+      background: rgba(10, 7, 5, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 0.5px solid rgba(220, 180, 120, 0.3);
+      z-index: 50;
+    }
+
+    .logo-area h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #f5e7d9, #e0b37c);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .logo-area span {
+      font-size: 0.65rem;
+      letter-spacing: 0.5px;
+      color: #bc9a6c;
+      display: block;
+    }
+
+    .hamburger {
+      background: rgba(30, 20, 15, 0.7);
+      backdrop-filter: blur(12px);
+      border-radius: 40px;
+      padding: 0.5rem 0.9rem;
+      cursor: pointer;
+      border: 0.5px solid rgba(220, 180, 120, 0.3);
+      transition: 0.2s;
+      display: block;
+    }
+
+    .hamburger i {
+      font-size: 1.3rem;
+      color: #e6c8a3;
+    }
+
+    .desktop-nav {
+      display: none;
+    }
+
+    /* Mobile Menu */
+    .nav-menu {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 80%;
+      max-width: 280px;
+      height: 100vh;
+      background: rgba(10, 7, 5, 0.98);
+      backdrop-filter: blur(20px);
+      z-index: 1000;
+      padding: 2rem 1.8rem;
+      transition: left 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      border-right: 1px solid rgba(200, 160, 100, 0.25);
+      box-shadow: 8px 0 40px rgba(0,0,0,0.6);
+    }
+
+    .nav-menu.active {
+      left: 0;
+    }
+
+    .nav-menu ul {
+      list-style: none;
+      margin-top: 2rem;
+    }
+
+    .nav-menu li {
+      margin: 1.5rem 0;
+    }
+
+    .nav-menu a {
+      color: #f2e2cf;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.3rem;
+      letter-spacing: -0.2px;
+      transition: 0.2s;
+      display: inline-block;
+    }
+
+    .nav-menu a:hover, .nav-menu a:active {
+      color: #e0a46b;
+      transform: translateX(6px);
+    }
+
+    .close-menu {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: #cbae86;
+      cursor: pointer;
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+    }
+
+    .menu-overlay-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(3px);
+      z-index: 999;
+      display: none;
+    }
+
+    /* Chat Main */
+    .chat-main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem 1.2rem;
+      scroll-behavior: smooth;
+    }
+
+    /* Header */
+    .chat-header {
+      text-align: center;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .chat-header h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      background: linear-gradient(120deg, #ffcba4, #f5ac78);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.3px;
+    }
+
+    .chat-header p {
+      font-size: 0.7rem;
+      color: #bc9a6c;
+      margin-top: 0.2rem;
+    }
+
+    /* Mode Chips */
+    .mode-section {
+      margin-bottom: 1rem;
+    }
+
+    .chips-wrapper {
+      overflow-x: auto;
+      white-space: nowrap;
+      display: flex;
+      gap: 0.7rem;
+      padding: 0.5rem 0 1rem;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+      transition: all 0.2s ease;
+    }
+
+    .chips-wrapper::-webkit-scrollbar {
+      height: 3px;
+    }
+
+    .mode-chip {
+      background: rgba(30, 20, 12, 0.7);
+      backdrop-filter: blur(4px);
+      border: 0.8px solid rgba(205, 150, 80, 0.4);
+      border-radius: 40px;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #e6bc86;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .mode-chip i {
+      font-size: 0.8rem;
+    }
+
+    .mode-chip.active {
+      background: linear-gradient(95deg, #b95f1a, #df883c);
+      color: #12100c;
+      border-color: transparent;
+      font-weight: 600;
+    }
+
+    .mode-chip:active {
+      transform: scale(0.96);
+    }
+
+    .selected-mode-bar {
+      background: rgba(185, 95, 26, 0.2);
+      border-radius: 60px;
+      padding: 0.5rem 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+      border: 0.5px solid rgba(220, 140, 60, 0.5);
+    }
+
+    .selected-mode-bar span {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #f5cf9b;
+    }
+
+    .exit-mode-btn {
+      background: none;
+      border: none;
+      color: #e6bc86;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0 0.3rem;
+      transition: 0.2s;
+    }
+
+    .exit-mode-btn:hover {
+      color: #d97a2b;
+      transform: scale(1.1);
+    }
+
+    /* Messages */
+    .messages {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin: 0.5rem 0 1rem;
+    }
+
+    .message {
+      display: flex;
+      gap: 12px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message.user {
+      justify-content: flex-end;
+    }
+
+    .message.bot {
+      justify-content: flex-start;
+    }
+
+    .message-content {
+      max-width: 85%;
+      padding: 0.8rem 1rem;
+      border-radius: 24px;
+      font-size: 0.9rem;
+      line-height: 1.45;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+    }
+
+    .user .message-content {
+      background: linear-gradient(135deg, #d97a2b, #b95f1a);
+      color: #fff6ea;
+      border-bottom-right-radius: 6px;
+    }
+
+    .bot .message-content {
+      background: rgba(30, 22, 16, 0.8);
+      backdrop-filter: blur(4px);
+      border: 0.5px solid rgba(205, 150, 80, 0.3);
+      border-bottom-left-radius: 6px;
+      color: #e6ddcf;
+    }
+
+    .message-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(210, 130, 40, 0.2);
+      font-size: 1rem;
+    }
+
+    .user .message-icon {
+      background: #e67e22;
+      order: 2;
+    }
+
+    .loading-dots {
+      display: flex;
+      gap: 4px;
+      padding: 0.5rem;
+    }
+    .loading-dots span {
+      width: 6px;
+      height: 6px;
+      background: #e6bc86;
+      border-radius: 50%;
+      animation: pulse 1.2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 60%, 100% { opacity: 0.3; transform: scale(0.8);}
+      30% { opacity: 1; transform: scale(1.2);}
+    }
+
+    /* Input Bar */
+    .chat-input-container {
+      background: rgba(15, 11, 7, 0.95);
+      backdrop-filter: blur(12px);
+      border-top: 0.5px solid rgba(220, 180, 120, 0.3);
+      padding: 0.8rem 1rem 1rem;
+    }
+
+    .input-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(25, 18, 12, 0.7);
+      border-radius: 60px;
+      padding: 0.3rem 0.5rem 0.3rem 1rem;
+      border: 0.8px solid rgba(205, 150, 80, 0.4);
+    }
+
+    .input-wrapper input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #f0e2d0;
+      font-size: 0.95rem;
+      padding: 0.7rem 0;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .input-wrapper input::placeholder {
+      color: #8f7658;
+    }
+
+    .action-btn {
+      background: rgba(210, 130, 40, 0.2);
+      border: none;
+      border-radius: 50%;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #e6bc86;
+      font-size: 1.1rem;
+      transition: 0.2s;
+    }
+
+    .action-btn:active {
+      transform: scale(0.92);
+      background: #e67e22;
+      color: #0f0c08;
+    }
+
+    .send-btn {
+      background: linear-gradient(135deg, #d97a2b, #b95f1a);
+      color: #1f190f;
+    }
+
+    .input-status {
+      font-size: 0.7rem;
+      margin-top: 6px;
+      padding-left: 8px;
+      color: #bc9a6c;
+    }
+
+    footer {
+      font-size: 0.6rem;
+      text-align: center;
+      color: #6b553c;
+      padding: 0.5rem 0 0.2rem;
+    }
+
+    @media (min-width: 768px) {
+      .hamburger {
+        display: none;
+      }
+      .desktop-nav {
+        display: flex;
+        gap: 2rem;
+      }
+      .desktop-nav a {
+        color: #e6bc86;
+        text-decoration: none;
+        font-weight: 500;
+        font-size: 0.9rem;
+        transition: 0.2s;
+      }
+      .desktop-nav a:hover {
+        color: #d97a2b;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .navbar {
+        padding: 0.6rem 1rem;
+      }
+      .chat-header h2 {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="logo-area">
+      <h1>NIYANTRA</h1>
+      <span>discipline · architecture · flow</span>
+    </div>
+    <div class="desktop-nav">
+      <a href="index.html">Home</a>
+      <a href="features.html">Features</a>
+      <a href="modes.html">Modes</a>
+      <a href="about.html">About</a>
+      <a href="chat.html">Start Studying</a>
+    </div>
+    <div class="hamburger" id="hamburgerBtn">
+      <i class="fas fa-bars"></i>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="menu-overlay-bg" id="menuOverlay"></div>
+  <div class="nav-menu" id="mobileMenu">
+    <button class="close-menu" id="closeMenuBtn"><i class="fas fa-times"></i></button>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="features.html">Features</a></li>
+      <li><a href="modes.html">Modes</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="chat.html">Start Studying</a></li>
+    </ul>
+  </div>
+
+  <div class="chat-main">
+    <div class="chat-header">
+      <h2>NIYANTRA AI Study Assistant</h2>
+      <p>Exam-ready intelligence · JEE · KCET · NEET · NDA · UPSC</p>
+    </div>
+
+    <!-- Mode Selection Area -->
+    <div class="mode-section" id="modeSection">
+      <div class="chips-wrapper" id="chipsWrapper">
+        <div class="mode-chip" data-mode="Test Mode (MCQs)"><i class="fas fa-tasks"></i> Test Mode (MCQs)</div>
+        <div class="mode-chip" data-mode="Flashcards"><i class="fas fa-layer-group"></i> Flashcards</div>
+        <div class="mode-chip" data-mode="Revision Notes"><i class="fas fa-pen-fancy"></i> Revision Notes</div>
+        <div class="mode-chip" data-mode="Learn Mode"><i class="fas fa-graduation-cap"></i> Learn Mode</div>
+      </div>
+      <div id="selectedModeDisplay" style="min-height: 50px;"></div>
+    </div>
+
+    <!-- Messages Container -->
+    <div class="messages" id="messagesContainer">
+      <div class="message bot">
+        <div class="message-icon"><i class="fas fa-robot"></i></div>
+        <div class="message-content">👋 Welcome to NIYANTRA AI Study Assistant. Select a study mode, ask any question, upload an image, paste a YouTube link, or use voice input. I'll deliver exam-ready responses for JEE, KCET, NEET, NDA, and UPSC.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Input Bar -->
+  <div class="chat-input-container">
+    <div class="input-wrapper">
+      <button class="action-btn" id="imageUploadBtn"><i class="fas fa-plus"></i></button>
+      <button class="action-btn" id="voiceInputBtn"><i class="fas fa-microphone"></i></button>
+      <input type="text" id="chatInput" placeholder="Type, paste YouTube link, or ask..." autocomplete="off">
+      <button class="action-btn send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
+    </div>
+    <div class="input-status" id="inputStatus"></div>
+    <footer>NIYANTRA · AI discipline OS</footer>
+  </div>
+</div>
+
+<input type="file" id="imageFileInput" accept="image/*" style="display: none;">
+
+<script>
+  // DOM Elements
+  const messagesContainer = document.getElementById('messagesContainer');
+  const chatInput = document.getElementById('chatInput');
+  const sendBtn = document.getElementById('sendBtn');
+  const imageUploadBtn = document.getElementById('imageUploadBtn');
+  const voiceInputBtn = document.getElementById('voiceInputBtn');
+  const imageFileInput = document.getElementById('imageFileInput');
+  const inputStatus = document.getElementById('inputStatus');
+  const chipsWrapper = document.getElementById('chipsWrapper');
+  const selectedModeDisplay = document.getElementById('selectedModeDisplay');
+
+  let selectedMode = null;
+  let currentImageBase64 = null;
+  let currentImageName = null;
+
+  const modes = [
+    { name: "Test Mode (MCQs)", icon: "fas fa-tasks" },
+    { name: "Flashcards", icon: "fas fa-layer-group" },
+    { name: "Revision Notes", icon: "fas fa-pen-fancy" },
+    { name: "Learn Mode", icon: "fas fa-graduation-cap" }
+  ];
+
+  function renderModeChips() {
+    if (selectedMode === null) {
+      chipsWrapper.innerHTML = modes.map(mode => `
+        <div class="mode-chip" data-mode="${mode.name}">
+          <i class="${mode.icon}"></i> ${mode.name}
+        </div>
+      `).join('');
+      selectedModeDisplay.innerHTML = '';
+      document.querySelectorAll('.mode-chip').forEach(chip => {
+        chip.addEventListener('click', () => selectMode(chip.getAttribute('data-mode')));
+      });
+    } else {
+      const selectedModeObj = modes.find(m => m.name === selectedMode);
+      chipsWrapper.innerHTML = `
+        <div class="mode-chip active" style="pointer-events: none;">
+          <i class="${selectedModeObj.icon}"></i> ${selectedMode}
+          <i class="fas fa-times" style="margin-left: 8px; cursor: pointer; pointer-events: auto;" id="exitModeBtn"></i>
+        </div>
+      `;
+      selectedModeDisplay.innerHTML = `
+        <div class="selected-mode-bar">
+          <i class="fas fa-check-circle" style="color: #e67e22;"></i>
+          <span>Active: ${selectedMode}</span>
+          <button class="exit-mode-btn" id="exitModeBtnAlt"><i class="fas fa-times"></i></button>
+        </div>
+      `;
+      const exitBtn = document.getElementById('exitModeBtn');
+      const exitBtnAlt = document.getElementById('exitModeBtnAlt');
+      if (exitBtn) exitBtn.addEventListener('click', exitMode);
+      if (exitBtnAlt) exitBtnAlt.addEventListener('click', exitMode);
+    }
+  }
+
+  function selectMode(mode) {
+    selectedMode = mode;
+    renderModeChips();
+    inputStatus.innerText = `✅ Mode activated: ${mode}`;
+    setTimeout(() => {
+      if (inputStatus.innerText.includes('activated')) inputStatus.innerText = '';
+    }, 2000);
+  }
+
+  function exitMode() {
+    selectedMode = null;
+    renderModeChips();
+    inputStatus.innerText = `Mode deactivated. All study modes available.`;
+    setTimeout(() => {
+      if (inputStatus.innerText.includes('deactivated')) inputStatus.innerText = '';
+    }, 2000);
+  }
+
+  function addMessage(role, content) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${role}`;
+    const iconHtml = role === 'user' ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
+    messageDiv.innerHTML = `
+      <div class="message-icon">${iconHtml}</div>
+      <div class="message-content">${escapeHtml(content)}</div>
+    `;
+    messagesContainer.appendChild(messageDiv);
+    messageDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML.replace(/\n/g, '<br>');
+  }
+
+  function showTypingIndicator() {
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'message bot';
+    typingDiv.id = 'typingIndicator';
+    typingDiv.innerHTML = `
+      <div class="message-icon"><i class="fas fa-robot"></i></div>
+      <div class="message-content"><div class="loading-dots"><span></span><span></span><span></span></div></div>
+    `;
+    messagesContainer.appendChild(typingDiv);
+    typingDiv.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  }
+
+  function removeTypingIndicator() {
+    const indicator = document.getElementById('typingIndicator');
+    if (indicator) indicator.remove();
+  }
+
+  async function callAPI(userPrompt, imageBase64 = null, youtubeUrl = null) {
+    let finalPrompt = userPrompt || "";
+    
+    if (youtubeUrl && youtubeUrl.trim() !== "") {
+      finalPrompt = `[YouTube Link: ${youtubeUrl}]\nAnalyze this video and create exam-ready material.\nUser query: ${userPrompt || "Summarize key concepts"}`;
+    }
+    
+    if (imageBase64) {
+      finalPrompt = `[Image uploaded]\nAnalyze this image and provide exam-focused explanation.\nUser query: ${userPrompt || "Explain and solve"}`;
+    }
+    
+    if (selectedMode) {
+      finalPrompt = `[Mode: ${selectedMode}]\n${finalPrompt}`;
+    }
+    
+    try {
+      const response = await fetch('/api/openrouter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: finalPrompt })
+      });
+      
+      if (!response.ok) throw new Error(`API error: ${response.status}`);
+      const data = await response.json();
+      return data.reply || "Response received from NIYANTRA AI.";
+    } catch (error) {
+      console.error("API error:", error);
+      return `⚠️ Demo: Ready for production API.\n\nPrompt: ${finalPrompt.substring(0, 200)}...\n\n${selectedMode ? selectedMode : "Standard"} mode would return exam-ready output with structured explanations.`;
+    }
+  }
+
+  async function sendMessage() {
+    let rawText = chatInput.value.trim();
+    const youtubeRegex = /(youtu\.be\/|youtube\.com\/watch\?v=)([a-zA-Z0-9_-]+)/;
+    const isYoutube = youtubeRegex.test(rawText);
+    let youtubeUrl = isYoutube ? rawText : null;
+    
+    if (!rawText && !currentImageBase64 && !isYoutube) {
+      inputStatus.innerText = "✨ Type a question, paste YouTube link, or upload an image.";
+      setTimeout(() => { if (inputStatus.innerText.includes("Type")) inputStatus.innerText = ''; }, 2000);
+      return;
+    }
+    
+    let userDisplayMessage = "";
+    if (currentImageBase64) {
+      userDisplayMessage = `📷 [Image: ${currentImageName || "uploaded"}] ${rawText ? rawText : "Explain this image."}`;
+    } else if (isYoutube) {
+      userDisplayMessage = `🎬 YouTube analysis: ${rawText}`;
+    } else {
+      userDisplayMessage = rawText;
+    }
+    
+    addMessage('user', userDisplayMessage);
+    chatInput.value = '';
+    const imageToSend = currentImageBase64;
+    const youtubeToSend = youtubeUrl;
+    const userText = rawText;
+    
+    currentImageBase64 = null;
+    currentImageName = null;
+    
+    showTypingIndicator();
+    const aiResponse = await callAPI(userText, imageToSend, youtubeToSend);
+    removeTypingIndicator();
+    addMessage('bot', aiResponse);
+  }
+  
+  imageUploadBtn.addEventListener('click', () => {
+    imageFileInput.click();
+  });
+  
+  imageFileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      inputStatus.innerText = "❌ Only image files supported.";
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      currentImageBase64 = ev.target.result.split(',')[1];
+      currentImageName = file.name;
+      inputStatus.innerText = `🖼️ Image ready: ${file.name}. Add text & send.`;
+      setTimeout(() => {
+        if (inputStatus.innerText.includes("Image ready")) inputStatus.innerText = '';
+      }, 3000);
+    };
+    reader.readAsDataURL(file);
+    imageFileInput.value = '';
+  });
+  
+  if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = null;
+    
+    voiceInputBtn.addEventListener('click', () => {
+      if (recognition && recognition.active) return;
+      recognition = new SpeechRecognition();
+      recognition.lang = 'en-IN';
+      recognition.interimResults = false;
+      
+      recognition.onstart = () => {
+        inputStatus.innerHTML = '<i class="fas fa-microphone-alt"></i> Listening...';
+        voiceInputBtn.style.background = "#e67e22";
+      };
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        chatInput.value = transcript;
+        inputStatus.innerText = `🎤 Voice: "${transcript}" — tap send.`;
+        setTimeout(() => {
+          if (inputStatus.innerText.includes("Voice:")) inputStatus.innerText = '';
+        }, 2500);
+      };
+      recognition.onerror = () => {
+        voiceInputBtn.style.background = "";
+      };
+      recognition.onend = () => {
+        voiceInputBtn.style.background = "";
+      };
+      recognition.start();
+    });
+  } else {
+    voiceInputBtn.addEventListener('click', () => {
+      inputStatus.innerText = "⚠️ Voice input not supported in this browser.";
+    });
+  }
+  
+  sendBtn.addEventListener('click', sendMessage);
+  chatInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendMessage();
+  });
+  
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburgerBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const menuOverlay = document.getElementById('menuOverlay');
+  const closeMenuBtn = document.getElementById('closeMenuBtn');
+  
+  function openMenu() {
+    mobileMenu.classList.add('active');
+    menuOverlay.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMenu() {
+    mobileMenu.classList.remove('active');
+    menuOverlay.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+  
+  if (hamburger) hamburger.addEventListener('click', openMenu);
+  if (closeMenuBtn) closeMenuBtn.addEventListener('click', closeMenu);
+  if (menuOverlay) menuOverlay.addEventListener('click', closeMenu);
+  
+  const menuLinks = document.querySelectorAll('#mobileMenu a');
+  menuLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (href && href !== '#' && !href.startsWith('javascript')) {
+        e.preventDefault();
+        closeMenu();
+        setTimeout(() => { window.location.href = href; }, 100);
+      } else {
+        closeMenu();
+      }
+    });
+  });
+  
+  renderModeChips();
+</script>
+</body>
+</html>
