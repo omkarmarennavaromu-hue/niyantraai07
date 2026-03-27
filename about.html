@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+  <title>NIYANTRA · About | AI Discipline + Learning OS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: radial-gradient(circle at 10% 20%, #0a0704, #1b130c);
+      font-family: 'Inter', sans-serif;
+      color: #ece6df;
+      line-height: 1.4;
+      scroll-behavior: smooth;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 1.2rem 1.5rem 3rem;
+    }
+
+    /* navbar premium */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0 1rem;
+      position: relative;
+      z-index: 50;
+    }
+
+    .logo-area h1 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #f5e7d9, #e0b37c);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .logo-area span {
+      font-size: 0.7rem;
+      letter-spacing: 0.5px;
+      color: #bc9a6c;
+      display: block;
+      font-weight: 400;
+    }
+
+    .hamburger {
+      background: rgba(30, 20, 15, 0.7);
+      backdrop-filter: blur(12px);
+      border-radius: 40px;
+      padding: 0.6rem 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+      border: 0.5px solid rgba(220, 180, 120, 0.3);
+    }
+
+    .hamburger i {
+      font-size: 1.5rem;
+      color: #e6c8a3;
+    }
+
+    .nav-menu {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 80%;
+      max-width: 280px;
+      height: 100vh;
+      background: rgba(10, 7, 5, 0.96);
+      backdrop-filter: blur(16px);
+      z-index: 1000;
+      padding: 2rem 1.8rem;
+      transition: left 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      border-right: 1px solid rgba(200, 160, 100, 0.25);
+      box-shadow: 8px 0 40px rgba(0,0,0,0.6);
+    }
+
+    .nav-menu.active {
+      left: 0;
+    }
+
+    .nav-menu ul {
+      list-style: none;
+      margin-top: 2rem;
+    }
+
+    .nav-menu li {
+      margin: 1.5rem 0;
+    }
+
+    .nav-menu a {
+      color: #f2e2cf;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.3rem;
+      letter-spacing: -0.2px;
+      transition: 0.2s;
+      display: inline-block;
+    }
+
+    .nav-menu a:hover, .nav-menu a:active {
+      color: #e0a46b;
+      transform: translateX(6px);
+    }
+
+    .close-menu {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: #cbae86;
+      cursor: pointer;
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+    }
+
+    .menu-overlay-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(3px);
+      z-index: 999;
+      display: none;
+    }
+
+    /* about page specific styles */
+    .about-header {
+      margin: 1rem 0 1.2rem;
+    }
+
+    .about-header h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      background: linear-gradient(120deg, #ffcba4, #f5ac78);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .tagline {
+      font-size: 1rem;
+      color: #e6bc8a;
+      margin: 0.5rem 0 1rem;
+      font-weight: 500;
+      letter-spacing: -0.2px;
+    }
+
+    .glass-section {
+      background: rgba(20, 14, 9, 0.55);
+      backdrop-filter: blur(8px);
+      border-radius: 32px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border: 0.5px solid rgba(205, 150, 80, 0.3);
+    }
+
+    .glass-section h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      color: #f5cf9b;
+      letter-spacing: -0.3px;
+    }
+
+    .glass-section p {
+      color: #d6c5b2;
+      line-height: 1.55;
+      font-size: 0.95rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .founder-card {
+      background: linear-gradient(135deg, rgba(35, 25, 16, 0.8), rgba(20, 14, 8, 0.9));
+      border-radius: 36px;
+      padding: 1.8rem;
+      margin: 1.5rem 0;
+      border: 1px solid rgba(220, 160, 80, 0.5);
+      text-align: center;
+    }
+
+    .founder-icon {
+      font-size: 3rem;
+      background: rgba(210, 130, 40, 0.2);
+      width: 70px;
+      height: 70px;
+      border-radius: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      border: 1px solid #e0a46b;
+    }
+
+    .founder-card h3 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #f0cf9b;
+    }
+
+    .founder-title {
+      color: #cfaa7a;
+      font-weight: 500;
+      margin: 0.3rem 0 0.8rem;
+      font-size: 0.9rem;
+    }
+
+    .founder-bio {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #e1cfb6;
+    }
+
+    .core-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin: 1.2rem 0;
+    }
+
+    .core-item {
+      background: rgba(0, 0, 0, 0.35);
+      border-radius: 24px;
+      padding: 1rem;
+      border-left: 4px solid #e67e22;
+    }
+
+    .core-item h4 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #f3cf9a;
+      margin-bottom: 0.3rem;
+    }
+
+    .core-item p {
+      font-size: 0.85rem;
+      color: #cbbca4;
+    }
+
+    .ai-conversion {
+      background: #211c14;
+      border-radius: 28px;
+      padding: 1.3rem;
+      margin: 1.5rem 0;
+    }
+
+    .ai-conversion h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #e6bc86;
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .conversion-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      margin-top: 1rem;
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .step i {
+      font-size: 1.1rem;
+      color: #e67e22;
+      margin-top: 0.2rem;
+    }
+
+    .step p {
+      font-size: 0.88rem;
+      color: #e0cfb8;
+    }
+
+    hr {
+      border-color: rgba(160, 120, 70, 0.3);
+      margin: 1rem 0;
+    }
+
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      font-size: 0.7rem;
+      color: #8f7658;
+      border-top: 0.5px solid rgba(150,110,70,0.4);
+      padding-top: 1.8rem;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0.8rem 1.2rem 2rem;
+      }
+      .about-header h1 {
+        font-size: 1.8rem;
+      }
+      .glass-section h2 {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- navbar consistent with NIYANTRA -->
+  <div class="navbar">
+    <div class="logo-area">
+      <h1>NIYANTRA</h1>
+      <span>discipline · architecture · flow</span>
+    </div>
+    <div class="hamburger" id="hamburgerBtn">
+      <i class="fas fa-bars"></i>
+    </div>
+  </div>
+
+  <!-- about content matching reference site + detailed AI assistant explanation -->
+  <div class="about-header">
+    <h1>The premium layer between ambition and execution.</h1>
+    <div class="tagline">AI Discipline + Learning OS</div>
+  </div>
+
+  <div class="glass-section">
+    <h2>What NIYANTRA is</h2>
+    <p>A focused environment for disciplined learning. NIYANTRA combines study planning, weakness analysis, revision architecture, AI guidance and test simulation into one premium interface. Instead of using disconnected tools, students operate inside a single structured environment.</p>
+    <p>The goal is not to make studying look busy. The goal is to make studying work better — with stronger execution, less confusion and clearer decision-making every day.</p>
+  </div>
+
+  <div class="glass-section">
+    <h2>Vision</h2>
+    <p>The future of education is not only content delivery. It is intelligent direction. NIYANTRA is built to become the operating system that helps students decide what to study, how to revise, where they are weak and how to recover faster.</p>
+    <p>It is a system where AI does not distract the learner. It sharpens the learner. Every part of the product exists to make disciplined progress easier to sustain.</p>
+  </div>
+
+  <!-- Detailed explanation: AI Study Assistant & content conversion -->
+  <div class="ai-conversion">
+    <h3><i class="fas fa-robot"></i> AI Study Assistant · Any Content → Exam-Ready</h3>
+    <p><strong>How it converts any content into exam-ready material:</strong> NIYANTRA’s AI engine processes diverse inputs — voice notes, images, YouTube lectures, PDFs, or plain text — and extracts structured knowledge. Using semantic analysis, it identifies core concepts, formulas, exam patterns, and common pitfalls. The system then regenerates content into concise revision notes, smart flashcards, MCQ test banks, and step-by-step solutions tailored to JEE, KCET, NDA, or NEET standards.</p>
+    <div class="conversion-steps">
+      <div class="step">
+        <i class="fas fa-microphone-alt"></i>
+        <p><strong>Voice / Image / Link:</strong> Raw material is transcribed, OCR-processed, or summarized instantly.</p>
+      </div>
+      <div class="step">
+        <i class="fas fa-brain"></i>
+        <p><strong>AI Understanding Layer:</strong> Extracts syllabus alignment, difficulty level, and concept hierarchy.</p>
+      </div>
+      <div class="step">
+        <i class="fas fa-chalkboard"></i>
+        <p><strong>Exam-Ready Packaging:</strong> Generates notes, quizzes, flashcards, and revision loops — all in the learner’s preferred format.</p>
+      </div>
+    </div>
+    <p style="margin-top: 0.8rem; font-size: 0.85rem; color: #e0bc88;"><i class="fas fa-sync-alt"></i> The result: fragmented inputs become a disciplined, exam-focused knowledge base.</p>
+  </div>
+
+  <!-- Founder section with exact line -->
+  <div class="founder-card">
+    <div class="founder-icon">
+      <i class="fas fa-user-astronaut"></i>
+    </div>
+    <h3>Omkar R Marennavar</h3>
+    <div class="founder-title">Class 12 PUC PCM CS Student</div>
+    <div class="founder-bio">
+      NIYANTRA represents a disciplined vision for learning — where serious students are supported by a system that respects focus, structure and ambition. The founder card reflects that same mindset: premium, minimal and purpose-driven.
+    </div>
+    <div style="margin-top: 1rem; font-weight: 500; background: rgba(210,130,40,0.2); display: inline-block; padding: 0.2rem 1rem; border-radius: 60px; font-size: 0.8rem;">
+      <i class="fas fa-gem"></i> NDA Aspirant · Builder of NIYANTRA
+    </div>
+  </div>
+
+  <!-- Core Promise grid matching reference -->
+  <div class="core-grid">
+    <div class="core-item">
+      <h4><i class="fas fa-chart-line"></i> Consistency</h4>
+      <p>Structure the daily process so the right work happens even when energy fluctuates.</p>
+    </div>
+    <div class="core-item">
+      <h4><i class="fas fa-crystal"></i> Clarity</h4>
+      <p>Reduce noise and help students decide what matters most right now.</p>
+    </div>
+    <div class="core-item">
+      <h4><i class="fas fa-trophy"></i> Performance</h4>
+      <p>Improve learning quality, revision retention and exam readiness through a repeatable loop.</p>
+    </div>
+  </div>
+
+  <footer>
+    NIYANTRA — Built with intent. The premium OS for disciplined learners.
+  </footer>
+</div>
+
+<!-- mobile menu (identical to all NIYANTRA pages) -->
+<div class="menu-overlay-bg" id="menuOverlay"></div>
+<div class="nav-menu" id="mobileMenu">
+  <button class="close-menu" id="closeMenuBtn"><i class="fas fa-times"></i></button>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="features.html">Features</a></li>
+    <li><a href="modes.html">Modes</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="chat.html" id="menuStartStudy">Start Studying</a></li>
+  </ul>
+</div>
+
+<script>
+  // hamburger menu logic (consistent across all pages)
+  const hamburger = document.getElementById("hamburgerBtn");
+  const mobileMenu = document.getElementById("mobileMenu");
+  const menuOverlay = document.getElementById("menuOverlay");
+  const closeMenuBtn = document.getElementById("closeMenuBtn");
+  const menuLinks = document.querySelectorAll("#mobileMenu a");
+
+  function openMenu() {
+    mobileMenu.classList.add("active");
+    menuOverlay.style.display = "block";
+    document.body.style.overflow = "hidden";
+  }
+  function closeMenu() {
+    mobileMenu.classList.remove("active");
+    menuOverlay.style.display = "none";
+    document.body.style.overflow = "";
+  }
+  if (hamburger) hamburger.addEventListener("click", openMenu);
+  if (closeMenuBtn) closeMenuBtn.addEventListener("click", closeMenu);
+  if (menuOverlay) menuOverlay.addEventListener("click", closeMenu);
+
+  menuLinks.forEach(link => {
+    link.addEventListener("click", (e) => {
+      const href = link.getAttribute("href");
+      if (href === "chat.html") {
+        e.preventDefault();
+        closeMenu();
+        setTimeout(() => { window.location.href = "chat.html"; }, 100);
+      } 
+      else if (href && href !== "#" && !href.startsWith("javascript")) {
+        e.preventDefault();
+        closeMenu();
+        setTimeout(() => { window.location.href = href; }, 80);
+      } else {
+        closeMenu();
+      }
+    });
+  });
+</script>
+</body>
+</html>
