@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+  <title>NIYANTRA · Discipline OS</title>
+  <!-- Google Fonts + Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: radial-gradient(circle at 10% 20%, #0a0704, #1b130c);
+      /* premium black + brown blend */
+      font-family: 'Inter', sans-serif;
+      color: #ece6df;
+      line-height: 1.4;
+      scroll-behavior: smooth;
+    }
+
+    /* glass / premium ui touches */
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 1.2rem 1.5rem 3rem;
+    }
+
+    /* navbar mobile-first */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0 1rem;
+      position: relative;
+      z-index: 50;
+    }
+
+    .logo-area h1 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #f5e7d9, #e0b37c);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .logo-area span {
+      font-size: 0.7rem;
+      letter-spacing: 0.5px;
+      color: #bc9a6c;
+      display: block;
+      font-weight: 400;
+    }
+
+    /* hamburger */
+    .hamburger {
+      background: rgba(30, 20, 15, 0.7);
+      backdrop-filter: blur(12px);
+      border-radius: 40px;
+      padding: 0.6rem 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+      border: 0.5px solid rgba(220, 180, 120, 0.3);
+    }
+
+    .hamburger i {
+      font-size: 1.5rem;
+      color: #e6c8a3;
+    }
+
+    /* mobile menu overlay */
+    .nav-menu {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 80%;
+      max-width: 280px;
+      height: 100vh;
+      background: rgba(10, 7, 5, 0.96);
+      backdrop-filter: blur(16px);
+      z-index: 1000;
+      padding: 2rem 1.8rem;
+      transition: left 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      border-right: 1px solid rgba(200, 160, 100, 0.25);
+      box-shadow: 8px 0 40px rgba(0,0,0,0.6);
+    }
+
+    .nav-menu.active {
+      left: 0;
+    }
+
+    .nav-menu ul {
+      list-style: none;
+      margin-top: 2rem;
+    }
+
+    .nav-menu li {
+      margin: 1.5rem 0;
+    }
+
+    .nav-menu a {
+      color: #f2e2cf;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.3rem;
+      letter-spacing: -0.2px;
+      transition: 0.2s;
+      display: inline-block;
+    }
+
+    .nav-menu a:hover, .nav-menu a:active {
+      color: #e0a46b;
+      transform: translateX(6px);
+    }
+
+    .close-menu {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: #cbae86;
+      cursor: pointer;
+      position: absolute;
+      top: 1rem;
+      right: 1.5rem;
+    }
+
+    .menu-overlay-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(3px);
+      z-index: 999;
+      display: none;
+    }
+
+    /* dynamic greeting + quote section */
+    .hero-greeting {
+      margin: 1.2rem 0 0.8rem;
+    }
+
+    .greeting-text {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(120deg, #ffcba4, #f5ac78);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      line-height: 1.2;
+    }
+
+    .rotating-quote {
+      margin: 0.8rem 0 1.2rem;
+      padding: 0.8rem 0;
+      border-left: 3px solid #d97a2b;
+      padding-left: 1rem;
+      font-style: italic;
+      font-weight: 400;
+      color: #cfb694;
+      font-size: 1rem;
+      transition: opacity 0.3s ease;
+    }
+
+    .hero-description {
+      margin: 1rem 0;
+    }
+
+    .hero-description p {
+      font-size: 1rem;
+      color: #cdbba8;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    .btn-cta {
+      background: linear-gradient(95deg, #b95f1a, #df883c);
+      border: none;
+      padding: 0.9rem 1.8rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #12100c;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 1rem 0 1.2rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.3);
+    }
+
+    .btn-cta i {
+      font-size: 1.1rem;
+    }
+
+    .btn-cta:active {
+      transform: scale(0.97);
+    }
+
+    /* feature cards */
+    .section-title {
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin: 2rem 0 1rem;
+      letter-spacing: -0.3px;
+      color: #f3e1ca;
+    }
+
+    .features-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin: 1.2rem 0 2rem;
+    }
+
+    .feature-card {
+      background: rgba(25, 18, 12, 0.7);
+      backdrop-filter: blur(4px);
+      border-radius: 28px;
+      padding: 1.2rem 1.2rem;
+      border: 0.6px solid rgba(205, 150, 80, 0.3);
+      transition: all 0.2s;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+    }
+
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: #f5cf9b;
+    }
+
+    .feature-card p {
+      font-size: 0.9rem;
+      color: #cbbca8;
+      line-height: 1.4;
+    }
+
+    /* mode highlight & exam ready */
+    .mode-highlight {
+      background: #1d2b1f;
+      border-left: 5px solid #52b788;
+      padding: 0.9rem;
+      border-radius: 20px;
+      margin: 1rem 0;
+    }
+
+    .exam-ready {
+      background: #3d2a1e;
+      padding: 1rem;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 1rem;
+    }
+
+    .badge {
+      background: #dc7f2c;
+      color: #0c0a07;
+      font-weight: bold;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+    }
+
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      font-size: 0.7rem;
+      color: #8f7658;
+      border-top: 0.5px solid rgba(150,110,70,0.4);
+      padding-top: 1.8rem;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    i, .fas, .far {
+      color: inherit;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 0.8rem 1.2rem 2rem;
+      }
+      .greeting-text {
+        font-size: 1.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- navbar -->
+  <div class="navbar">
+    <div class="logo-area">
+      <h1>NIYANTRA</h1>
+      <span>discipline · architecture · flow</span>
+    </div>
+    <div class="hamburger" id="hamburgerBtn">
+      <i class="fas fa-bars"></i>
+    </div>
+  </div>
+
+  <!-- dynamic greeting + rotating quotes + hero -->
+  <div class="hero-greeting">
+    <div class="greeting-text" id="greetingMsg">Good Afternoon, Builder of Discipline.</div>
+    <div class="rotating-quote" id="rotatingQuote">"Discipline is not pressure. It is architecture."</div>
+  </div>
+
+  <div class="hero-description">
+    <p><strong>NIYANTRA</strong> is a premium learning system designed to convert intent into consistency. Build discipline, identify weaknesses, plan revision, and train for the exam that matters most.</p>
+  </div>
+
+  <!-- start studying button -> chat.html -->
+  <a href="chat.html" id="startStudyLink">
+    <button class="btn-cta"><i class="fas fa-graduation-cap"></i> Start Studying</button>
+  </a>
+
+  <!-- Feature explanation cards: 6 core interactions exactly matching description -->
+  <div class="section-title">Core Interaction</div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="card-icon"><i class="fas fa-microphone-alt" style="color:#f39c12;"></i></div>
+      <h3>Speak a question</h3>
+      <p>Tap mic & ask naturally — voice-to-text, instant AI feedback.</p>
+    </div>
+    <div class="feature-card">
+      <div class="card-icon"><i class="fas fa-image" style="color:#e67e22;"></i></div>
+      <h3>Upload image</h3>
+      <p>Snap a problem or handwritten note; extract text & solve.</p>
+    </div>
+    <div class="feature-card">
+      <div class="card-icon"><i class="fab fa-youtube" style="color:#e67e22;"></i></div>
+      <h3>Paste YouTube link</h3>
+      <p>Summarize lectures, extract key concepts, generate questions.</p>
+    </div>
+    <div class="feature-card">
+      <div class="card-icon"><i class="fas fa-keyboard" style="color:#bc9a6c;"></i></div>
+      <h3>Type normally</h3>
+      <p>Ask doubts, refine answers, get structured explanations.</p>
+    </div>
+    <div class="feature-card">
+      <div class="card-icon"><i class="fas fa-sliders-h" style="color:#52b788;"></i></div>
+      <h3>Choose mode</h3>
+      <p>Quiz mode, deep-dive, revision sprint — tailor your session.</p>
+    </div>
+    <div class="feature-card">
+      <div class="card-icon"><i class="fas fa-chalkboard-teacher" style="color:#e67e22;"></i></div>
+      <h3>Get exam-ready output</h3>
+      <p>Concise notes, practice drills & exam-style answers.</p>
+    </div>
+  </div>
+
+  <!-- extra component: mode & exam ready showcase (premium) -->
+  <div class="mode-highlight">
+    <i class="fas fa-brain" style="margin-right: 8px; color:#f39c12;"></i> <strong>AI Learning Mode</strong> — Ask, refine, simplify and rebuild understanding.
+  </div>
+  <div class="exam-ready">
+    <span><i class="fas fa-check-circle" style="color:#7cb518;"></i> <strong>Exam-Ready Output</strong> — Timed drills, weakness reports, smart revision.</span>
+    <span class="badge">JEE · NEET · UPSC · KCET</span>
+  </div>
+
+  <!-- built for & glass ui mention (like reference) -->
+  <div style="margin-top: 1.8rem;">
+    <p style="font-size: 0.85rem; background: rgba(0,0,0,0.3); padding: 0.8rem; border-radius: 28px; text-align: center;">
+      <i class="fas fa-gem" style="color:#dc9e5e;"></i> Built for JEE · KCET · NEET · NDA · UPSC — <strong>One disciplined core system.</strong> <br>Glass UI · Soft Glow · Mobile First
+    </p>
+  </div>
+  <footer>
+    NIYANTRA — Discipline Architecture. Results follow the system.
+  </footer>
+</div>
+
+<!-- mobile menu structure -->
+<div class="menu-overlay-bg" id="menuOverlay"></div>
+<div class="nav-menu" id="mobileMenu">
+  <button class="close-menu" id="closeMenuBtn"><i class="fas fa-times"></i></button>
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Features</a></li>
+    <li><a href="#">Modes</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="chat.html" id="menuStartStudy">Start Studying</a></li>
+  </ul>
+</div>
+
+<script>
+  // ========== 1) DYNAMIC GREETING (based on time) ==========
+  function updateGreeting() {
+    const now = new Date();
+    const hour = now.getHours();
+    let greeting = "";
+    if (hour >= 5 && hour < 12) greeting = "Good Morning";
+    else if (hour >= 12 && hour < 17) greeting = "Good Afternoon";
+    else if (hour >= 17 && hour < 21) greeting = "Good Evening";
+    else greeting = "Good Night";
+    const greetingEl = document.getElementById("greetingMsg");
+    if (greetingEl) greetingEl.innerText = `${greeting}, Builder of Discipline.`;
+  }
+  updateGreeting();
+
+  // ========== 2) ROTATING QUOTES (premium list) ==========
+  const quotes = [
+    "\"Discipline is not pressure. It is architecture.\"",
+    "\"The system wins when motivation fades.\"",
+    "\"Fix leakage before exams expose it.\"",
+    "\"Retention becomes intentional with repetition.\"",
+    "\"Train for the room, not just the chapter.\"",
+    "\"Learn with precision, not noise.\"",
+    "\"Clarity for every session — that's NIYANTRA.\""
+  ];
+  let quoteIndex = 0;
+  const quoteElement = document.getElementById("rotatingQuote");
+  function rotateQuote() {
+    if (!quoteElement) return;
+    quoteIndex = (quoteIndex + 1) % quotes.length;
+    quoteElement.style.opacity = "0";
+    setTimeout(() => {
+      quoteElement.innerText = quotes[quoteIndex];
+      quoteElement.style.opacity = "1";
+    }, 150);
+  }
+  setInterval(rotateQuote, 5500); // rotate every 5.5 sec
+
+  // ========== 3) HAMBURGER MENU + MOBILE FIRST ==========
+  const hamburger = document.getElementById("hamburgerBtn");
+  const mobileMenu = document.getElementById("mobileMenu");
+  const menuOverlay = document.getElementById("menuOverlay");
+  const closeMenuBtn = document.getElementById("closeMenuBtn");
+  const menuLinks = document.querySelectorAll("#mobileMenu a");
+
+  function openMenu() {
+    mobileMenu.classList.add("active");
+    menuOverlay.style.display = "block";
+    document.body.style.overflow = "hidden";
+  }
+  function closeMenu() {
+    mobileMenu.classList.remove("active");
+    menuOverlay.style.display = "none";
+    document.body.style.overflow = "";
+  }
+  if (hamburger) hamburger.addEventListener("click", openMenu);
+  if (closeMenuBtn) closeMenuBtn.addEventListener("click", closeMenu);
+  if (menuOverlay) menuOverlay.addEventListener("click", closeMenu);
+  // close on any link click
+  menuLinks.forEach(link => {
+    link.addEventListener("click", (e) => {
+      // if link is start studying, we allow navigation but close menu first
+      if (link.getAttribute("href") === "chat.html") {
+        // we will close menu and let default happen after slight delay for smoothness
+        e.preventDefault();
+        closeMenu();
+        setTimeout(() => {
+          window.location.href = "chat.html";
+        }, 100);
+      } else {
+        closeMenu();
+        // for anchor links (Home, Features, etc) - just scroll or do nothing (no hash)
+        if (link.getAttribute("href") === "#") e.preventDefault();
+      }
+    });
+  });
+
+  // extra: make sure the Start Studying main button points to chat.html
+  const startBtn = document.querySelector(".btn-cta");
+  if (startBtn && startBtn.parentElement?.getAttribute("href") === "chat.html") {
+    // good
+  } else {
+    // fallback: wrap correctly (already in html)
+  }
+
+  // also for Start Studying inside menu we already handled
+  const menuStartStudy = document.getElementById("menuStartStudy");
+  if (menuStartStudy) {
+    menuStartStudy.addEventListener("click", (e) => {
+      e.preventDefault();
+      closeMenu();
+      setTimeout(() => { window.location.href = "chat.html"; }, 80);
+    });
+  }
+
+  // Ensure the main Start Studying button works without any interference
+  const studyLink = document.getElementById("startStudyLink");
+  if (studyLink) {
+    studyLink.addEventListener("click", (e) => {
+      // already href="chat.html"
+      // but we keep default behavior
+    });
+  }
+
+  // additional micro-interactions: add subtle active state for cards
+  const cards = document.querySelectorAll(".feature-card");
+  cards.forEach(card => {
+    card.addEventListener("click", () => {
+      // just a playful haptic feedback, no redirection
+      card.style.transform = "scale(0.99)";
+      setTimeout(() => { card.style.transform = ""; }, 120);
+    });
+  });
+  
+  // ensure rotating quote initial opacity
+  if(quoteElement) quoteElement.style.transition = "opacity 0.25s ease";
+  
+  // Check for any missing UI contrast adjustments: colors: red, light orange, dark green, grey, cream.
+  // dark green appears in mode-highlight (#1d2b1f), light orange (#f5ac78, #e0a46b), red (#d97a2b, #b95f1a) accents, cream background text.
+  // everything aligns with premium brand
+  console.log("NIYANTRA · dynamic UI ready");
+</script>
+
+<!-- optional : ensure that any background blending remains premium -->
+</body>
+</html>
